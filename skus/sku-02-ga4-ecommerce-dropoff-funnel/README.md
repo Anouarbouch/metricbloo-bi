@@ -27,5 +27,5 @@ E-commerce brands and agencies lose thousands of dollars in hidden drop-offs bet
 ---
 
 ## 3. Instant Checkout
-👉 **[Purchase Commercial License ($129 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/ga4-ecommerce-master)**  
+👉 **[Purchase Commercial License ($129 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/a95495ac-e42b-44cf-8da3-bfb6f9df9412)**  
 *(Instant delivery, EU VAT invoice included, 14-day money-back guarantee)*

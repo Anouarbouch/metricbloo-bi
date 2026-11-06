@@ -16,5 +16,5 @@ This dashboard blends **Google Ads, GA4, and Google Search Console** natively in
 ---
 
 ## 2. Instant Checkout
-👉 **[Purchase Commercial License ($289 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/blended-website-master)**  
+👉 **[Purchase Commercial License ($289 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/2f0a8905-ea18-408a-bb17-674e31090e8f)**  
 *(Instant template duplication link, commercial white-label rights, EU VAT receipt)*

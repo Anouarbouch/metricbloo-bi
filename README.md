@@ -37,7 +37,7 @@
 * **Resources:**
   * 📄 [SKU Documentation](skus/sku-02-ga4-ecommerce-dropoff-funnel/README.md)
   * 💻 [dbt GA4 Flattened Funnel View](skus/sku-02-ga4-ecommerce-dropoff-funnel/dbt_ga4_funnel_view.sql)
-  * 🛒 [Instant Purchase via Lemon Squeezy ($129)](https://metricbloo.lemonsqueezy.com/checkout/buy/ga4-ecommerce-master)
+  * 🛒 [Instant Purchase via Lemon Squeezy ($129)](https://metricbloo.lemonsqueezy.com/checkout/buy/a95495ac-e42b-44cf-8da3-bfb6f9df9412)
 
 ### 🚀 SKU 03: All-in-One Executive Blended Dashboard ($289)
 * **Status:** Commercial & Agency License
@@ -45,7 +45,7 @@
 * **Resources:**
   * 📄 [SKU Documentation](skus/sku-03-blended-website-master/README.md)
   * 💻 [dbt Multi-Source Blending Model](skus/sku-03-blended-website-master/dbt_blended_marketing_model.sql)
-  * 🛒 [Instant Purchase via Lemon Squeezy ($289)](https://metricbloo.lemonsqueezy.com/checkout/buy/blended-website-master)
+  * 🛒 [Instant Purchase via Lemon Squeezy ($289)](https://metricbloo.lemonsqueezy.com/checkout/buy/2f0a8905-ea18-408a-bb17-674e31090e8f)
 
 ---
 
