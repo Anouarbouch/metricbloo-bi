@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anouarbouch.github.io/metricbloo-bi/sitemap.xml
