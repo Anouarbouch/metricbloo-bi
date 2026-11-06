@@ -1,0 +1,17 @@
+METRICBLOO BI — AGENCY & MULTI-CLIENT COMMERCIAL LICENSE
+Product: All-in-One Executive Blended Dashboard (Agency Suite)
+Grantee: Agency Licensee / Purchaser
+
+1. GRANT OF AGENCY LICENSE:
+MetricBloo BI grants the purchaser a perpetual, worldwide, non-exclusive license to:
+- White-label, modify, rebrand, and customize the Looker Studio dashboard templates.
+- Deliver customized dashboard reports to an unlimited number of commercial agency clients.
+- Deploy the BigQuery and dbt SQL models across unlimited internal and client Google Cloud projects.
+
+2. RESTRICTIONS:
+The licensee may not resell the templates or raw SQL files as standalone digital assets, templates, or courses on third-party digital product marketplaces (e.g. Gumroad, Etsy, Envato) without substantial transformation.
+
+3. LIABILITY LIMITATION:
+The software and templates are provided "as is", without warranty of any kind. MetricBloo BI shall not be liable for any claims or damages.
+
+Copyright (c) 2026 MetricBloo BI. All rights reserved.

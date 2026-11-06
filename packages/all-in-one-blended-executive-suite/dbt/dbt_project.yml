@@ -1,0 +1,30 @@
+name: 'metricbloo_bi'
+version: '1.0.0'
+config-version: 2
+
+profile: 'metricbloo'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  ga4_project: "your-gcp-project-id"
+  ga4_property_id: "123456789"
+  gsc_project: "your-gcp-project-id"
+  ads_project: "your-gcp-project-id"
+  ads_customer_id: "1234567890"
+
+models:
+  metricbloo_bi:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

@@ -1,0 +1,14 @@
+METRICBLOO BI — COMMERCIAL PRODUCT LICENSE
+Product: GA4 E-Commerce Funnel Master (Digital License)
+Grantee: Licensee / Purchaser
+
+1. GRANT OF LICENSE:
+MetricBloo BI grants the purchaser a perpetual, non-exclusive commercial license to use, customize, and deploy the included Looker Studio template and BigQuery SQL models for internal business use or single-client deployment.
+
+2. RESTRICTIONS:
+The licensee may not resell, sub-license, redistribute, or share the raw SQL files or Looker Studio master duplication link on public marketplaces, torrent sites, or shared forums.
+
+3. LIABILITY LIMITATION:
+The software and templates are provided "as is", without warranty of any kind. In no event shall MetricBloo BI or its authors be liable for any claim, damages, or other liability.
+
+Copyright (c) 2026 MetricBloo BI. All rights reserved.
