@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MetricBloo — GA4, Looker Studio & BigQuery/dbt Dummy-Data Template Hub + Schema-Only Sprints</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #090d16; color: #e2e8f0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .glass { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .card-hover:hover { border-color: rgba(52, 211, 153, 0.5); transform: translateY(-2px); transition: all 0.2s ease; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Zero-Liability & Zero-Data Banner -->
+  <div class="bg-emerald-950/80 border-b border-emerald-800/50 text-xs text-emerald-200 py-2 px-4 text-center">
+    🛡️ <strong>100% Zero-Data / Zero-Upload Architecture:</strong> Every dashboard template uses 100% synthetic demo data. You duplicate templates into your own Google/BigQuery workspace in 1 click—we never access or store your company data.
+  </div>
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto w-full px-6 py-5 flex flex-wrap items-center justify-between border-b border-slate-800">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-600 flex items-center justify-center font-extrabold text-slate-950 shadow-lg">MB</div>
+      <div>
+        <span class="font-bold text-lg tracking-tight text-white">MetricBloo<span class="text-emerald-400">.io</span></span>
+        <span class="ml-2 text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Looker Studio + GA4 BigQuery SQL Kits</span>
+      </div>
+    </div>
+    <div class="flex items-center space-x-3 mt-3 sm:mt-0">
+      <a href="#sql-generator" class="text-xs sm:text-sm px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+        ⚙️ Free GA4 BigQuery SQL Builder
+      </a>
+      <button onclick="openModal('sprintModal')" class="text-xs sm:text-sm px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold shadow-lg transition">
+        🚀 Book Custom Dummy-Data Build (€2,500)
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto w-full px-6 py-10 flex-1 space-y-14">
+
+    <!-- Hero Section -->
+    <section class="text-center max-w-4xl mx-auto">
+      <span class="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+        Plug-and-Play BI Templates & Schema-Only SQL Engineering
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-4 mb-4">
+        Executive <span class="text-emerald-400">Looker Studio & BigQuery</span> Dashboards You Can Duplicate in 60 Seconds.
+      </h1>
+      <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+        Stop building agency & e-commerce reporting from scratch. Preview our templates with 100% synthetic demo data, click <strong>"Make a Copy"</strong> into your own Google account, and swap in your live GA4 / Shopify / Ads data source in 2 clicks.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3 mt-6">
+        <button onclick="openModal('freeTemplateModal')" class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm shadow-lg transition">
+          🎁 Get Free GA4 Acquisition & Funnel Template (€0)
+        </button>
+        <a href="#pricing-ladder" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm border border-slate-700 transition">
+          Explore All-Access Agency Pack (€129) →
+        </a>
+      </div>
+    </section>
+
+    <!-- Interactive Live Dummy-Data Dashboard Preview -->
+    <section class="glass rounded-2xl p-6 border border-slate-800">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4 mb-6">
+        <div>
+          <span class="text-xs font-bold uppercase text-emerald-400">Live Interactive Demo Preview (100% Synthetic Data)</span>
+          <h2 id="previewTitle" class="text-xl font-bold text-white mt-0.5">GA4 E-Commerce Revenue, Shopping Funnel & Multi-Channel ROAS Suite</h2>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="switchDemoTab('funnel')" id="tab-funnel" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold">1. E-Commerce Funnel</button>
+          <button onclick="switchDemoTab('roas')" id="tab-roas" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">2. Paid Media ROAS</button>
+          <button onclick="switchDemoTab('cohort')" id="tab-cohort" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">3. 90-Day LTV Cohort</button>
+        </div>
+      </div>
+
+      <!-- KPI Strip -->
+      <div id="kpiGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6"></div>
+
+      <!-- Data Table Preview -->
+      <div class="overflow-x-auto border border-slate-800 rounded-xl">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead id="demoThead" class="bg-slate-900/90 text-slate-400 border-b border-slate-800"></thead>
+          <tbody id="demoTbody" class="divide-y divide-slate-800/70 font-mono"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4-Step Product & Service Ladder (Exact Validated Architecture) -->
+    <section id="pricing-ladder">
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">The 4-Tier BI & SQL Product Ladder</h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-2">
+          Start with a free synthetic-data Looker Studio template, upgrade to our complete E-Commerce & Agency Pack, or book a zero-PII custom schema sprint.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Tier 1: Free Lead Magnet -->
+        <div class="glass card-hover rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-slate-800 text-emerald-300 border border-slate-700">Tier 1 • Free Lead Magnet</span>
+            <h3 class="text-lg font-bold text-white mt-3">GA4 Acquisition & Funnel Starter</h3>
+            <div class="text-2xl font-extrabold text-white mt-2">€0 <span class="text-xs font-normal text-slate-400">forever</span></div>
+            <p class="text-xs text-slate-400 mt-2">Immediate 1-click duplication into your Google account with pre-loaded fake demo data.</p>
+            <ul class="text-xs text-slate-300 space-y-2 mt-4">
+              <li>✅ 1-Page Looker Studio Funnel Template</li>
+              <li>✅ Synthetic Demo CSV Dataset included</li>
+              <li>✅ 2-click swap to your live GA4 property</li>
+            </ul>
+          </div>
+          <button onclick="openModal('freeTemplateModal')" class="w-full mt-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 font-bold text-xs border border-emerald-700/50 transition">
+            Duplicate Free Template →
+          </button>
+        </div>
+
+        <!-- Tier 2: Paid Digital Product (€129) -->
+        <div class="glass card-hover rounded-2xl p-5 flex flex-col justify-between border-2 border-emerald-500 relative">
+          <span class="absolute -top-2.5 right-4 bg-emerald-500 text-slate-950 text-[10px] font-extrabold px-2 py-0.5 rounded">INSTANT DIGITAL PACK</span>
+          <div>
+            <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Tier 2 • Paid Template Pack</span>
+            <h3 class="text-lg font-bold text-white mt-3">Pro E-Commerce & Agency Master Suite</h3>
+            <div class="text-2xl font-extrabold text-white mt-2">€129 <span class="text-xs font-normal text-slate-400">one-time license</span></div>
+            <p class="text-xs text-slate-400 mt-2">8 multi-page Looker Studio + Google Sheets templates with white-label agency rights.</p>
+            <ul class="text-xs text-slate-300 space-y-2 mt-4">
+              <li>✅ GA4 Shopping Behavior & SKU Margin Suite</li>
+              <li>✅ Blended Google + Meta + TikTok ROAS Board</li>
+              <li>✅ 90-Day Cohort Retention & LTV Matrix</li>
+              <li>✅ Pre-built BigQuery SQL views included</li>
+            </ul>
+          </div>
+          <button onclick="openModal('checkoutModal')" class="w-full mt-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs shadow-lg transition">
+            Buy Pro Pack via Lemon Squeezy (€129)
+          </button>
+        </div>
+
+        <!-- Tier 3: High-Ticket Custom Build on Dummy Data (€2,500) -->
+        <div class="glass card-hover rounded-2xl p-5 flex flex-col justify-between border border-amber-500/40">
+          <div>
+            <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300">Tier 3 • Custom Dummy-Data Build</span>
+            <h3 class="text-lg font-bold text-white mt-3">Bespoke Executive BI Sprint</h3>
+            <div class="text-2xl font-extrabold text-white mt-2">€2,500 <span class="text-xs font-normal text-slate-400">fixed fee (5 days)</span></div>
+            <p class="text-xs text-slate-400 mt-2">We build your custom Looker Studio / PowerBI / Sheets suite strictly on randomized dummy data.</p>
+            <ul class="text-xs text-slate-300 space-y-2 mt-4">
+              <li>✅ <strong>Zero PII / Zero Access Needed:</strong> Share only column headers</li>
+              <li>✅ Custom calculated fields, blends & branding</li>
+              <li>✅ You connect your live data source in 2 clicks</li>
+            </ul>
+          </div>
+          <button onclick="openModal('sprintModal')" class="w-full mt-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs shadow-md transition">
+            Book €2,500 Custom Dashboard Sprint →
+          </button>
+        </div>
+
+        <!-- Tier 4: Back-End Offer: Schema-Only GA4 BigQuery / dbt Sprint (€3,000) -->
+        <div class="glass card-hover rounded-2xl p-5 flex flex-col justify-between border border-indigo-500/40">
+          <div>
+            <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Tier 4 • Schema-Only SQL / dbt</span>
+            <h3 class="text-lg font-bold text-white mt-3">GA4 BigQuery & dbt Architecture Sprint</h3>
+            <div class="text-2xl font-extrabold text-white mt-2">€3,000 <span class="text-xs font-normal text-slate-400">fixed fee (7 days)</span></div>
+            <p class="text-xs text-slate-400 mt-2">Turnkey SQL/dbt data warehouse modeling using only your empty <code class="text-indigo-200">CREATE TABLE</code> DDL.</p>
+            <ul class="text-xs text-slate-300 space-y-2 mt-4">
+              <li>✅ GA4 <code class="text-indigo-200">event_params</code> unnesting & partition pruning</li>
+              <li>✅ Production <code class="text-indigo-200">dbt</code> staging/mart models + <code class="text-indigo-200">schema.yml</code> tests</li>
+              <li>✅ Delivered as a clean Git PR (Zero prod DB access)</li>
+            </ul>
+          </div>
+          <button onclick="openModal('sprintModal')" class="w-full mt-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md transition">
+            Book €3,000 SQL / dbt Sprint →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Embedded Free Tool: Stateless GA4 BigQuery & dbt SQL Code Generator (Zero File Upload) -->
+    <section id="sql-generator" class="glass rounded-2xl p-6 border border-slate-800">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 space-y-4">
+          <span class="text-xs font-bold uppercase px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Free Stateless Lead Magnet #2</span>
+          <h2 class="text-xl font-bold text-white">GA4 BigQuery Unnesting & <code class="text-emerald-400">dbt</code> Staging SQL Generator</h2>
+          <p class="text-xs text-slate-400">
+            Select your target warehouse pattern below. Generates partition-pruned BigQuery SQL and <code class="text-slate-200">dbt</code> model code in your browser—<strong>zero database connection or file upload required</strong>.
+          </p>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1.5">1. Select SQL / dbt Boilerplate Pattern</label>
+            <select id="sqlPattern" onchange="generateSql()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white">
+              <option value="ga4_funnel">GA4 BigQuery: E-Commerce Funnel Unnesting (Partition-Pruned)</option>
+              <option value="dbt_staging">dbt Staging Model + schema.yml Tests Generator</option>
+              <option value="scd2_incremental">dbt Incremental Model (Merge + Partition Cost Guard)</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">GCP Project / Schema Name</label>
+              <input id="gcpProject" type="text" value="analytics_prod.ga4_obfuscated" oninput="generateSql()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-emerald-300 font-mono" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Lookback Partition Window</label>
+              <select id="lookbackDays" onchange="generateSql()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white">
+                <option value="30">Last 30 Days (_TABLE_SUFFIX)</option>
+                <option value="90">Last 90 Days (_TABLE_SUFFIX)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-indigo-950/50 border border-indigo-800/50 text-xs text-indigo-200">
+            💡 <strong>Want our Senior SQL Architect to build your entire company’s BigQuery + Looker Studio warehouse?</strong> We work strictly from empty <code class="text-white">CREATE TABLE</code> schemas and synthetic test data—zero GDPR friction.
+            <button onclick="openModal('sprintModal')" class="mt-2 block text-amber-400 font-bold hover:underline">
+              → Book a €3,000 Schema-Only SQL/dbt Sprint
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 flex flex-col">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono text-slate-400">Generated Production SQL / dbt Boilerplate (100% Client-Side)</span>
+            <button onclick="copySql()" class="text-xs px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 font-medium">
+              📋 Copy SQL Code
+            </button>
+          </div>
+          <pre id="sqlOutput" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs text-emerald-300 overflow-x-auto leading-relaxed"></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Free Lead Magnet Modal -->
+  <div id="freeTemplateModal" class="fixed inset-0 bg-black/75 hidden items-center justify-center p-4 z-50">
+    <div class="glass max-w-lg w-full rounded-2xl p-6 border border-emerald-500/40">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+        <h3 class="text-lg font-bold text-white">🎁 Duplicate Free GA4 Funnel Template</h3>
+        <button onclick="closeModal('freeTemplateModal')" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <p class="text-xs text-slate-300 mb-4">
+        Enter your work email to unlock the <strong>1-Click Looker Studio Duplication Link</strong> + the 3 synthetic demo CSV files (`ga4_ecommerce_daily_funnel_demo.csv`).
+      </p>
+      <form onsubmit="event.preventDefault(); alert('✅ Free Template Link Unlocked! In production, this sends the Looker Studio /preview?CopyReport=true link and tags the user in your email sequence for the €129 Pro Pack and €2,500 Custom Build upsell.'); closeModal('freeTemplateModal');" class="space-y-3 text-xs">
+        <input required type="email" placeholder="Work Email (e.g., head-of-growth@brand.com)" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white" />
+        <button type="submit" class="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold">
+          Open 1-Click Looker Studio Copy Link →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- €129 Pro Pack Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/75 hidden items-center justify-center p-4 z-50">
+    <div class="glass max-w-lg w-full rounded-2xl p-6 border border-emerald-500">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+        <h3 class="text-lg font-bold text-white">⚡ Pro E-Commerce & Agency Master Suite (€129)</h3>
+        <button onclick="closeModal('checkoutModal')" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <p class="text-xs text-slate-300 mb-4">
+        Handled securely via <strong>Lemon Squeezy (Merchant of Record)</strong>—automatic EU VAT invoice, instant digital download of all 8 Looker Studio templates, synthetic CSV schemas, and BigQuery SQL views.
+      </p>
+      <button onclick="alert('✅ Redirecting to Lemon Squeezy Hosted Checkout (€129 One-Time)! Zero monthly platform fees.'); closeModal('checkoutModal');" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs">
+        Proceed to Lemon Squeezy Checkout (€129) →
+      </button>
+    </div>
+  </div>
+
+  <!-- €2,500 / €3,000 Custom Dummy-Data & Schema-Only Sprint Modal -->
+  <div id="sprintModal" class="fixed inset-0 bg-black/75 hidden items-center justify-center p-4 z-50">
+    <div class="glass max-w-2xl w-full rounded-2xl p-6 border border-amber-500/40">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+        <div>
+          <span class="text-[11px] font-bold uppercase text-amber-300">Zero-PII / Schema-Only Contracting</span>
+          <h3 class="text-lg font-bold text-white">Book a Turnkey BI Dashboard or BigQuery/dbt Sprint</h3>
+        </div>
+        <button onclick="closeModal('sprintModal')" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <p class="text-xs text-slate-300 mb-4">
+        <strong>Our Ironclad Zero-Data Guarantee:</strong> You never share customer PII, financial passwords, or production database access. We build against randomized dummy data or your empty <code class="text-amber-300">CREATE TABLE</code> DDL schema, and your team connects live data in 2 clicks.
+      </p>
+      <form onsubmit="event.preventDefault(); alert('✅ Sprint Scoping Request Received! Ready to send your €2,500 / €3,000 Stripe Milestone Link.'); closeModal('sprintModal');" class="space-y-3 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input required type="email" placeholder="Work Email" class="bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white" />
+          <select class="bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white">
+            <option>Tier 3: €2,500 Custom Dashboard Build (Dummy-Data Spec)</option>
+            <option>Tier 4: €3,000 GA4 BigQuery / dbt Sprint (Schema-Only DDL)</option>
+          </select>
+        </div>
+        <textarea required rows="3" placeholder="Paste your empty column names / schema DDL or describe the metrics you want visualized..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white font-mono"></textarea>
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold">
+          Request Async Scope & Lock Sprint Slot →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const DEMO_TABS = {
+      funnel: {
+        kpis: [
+          { label: 'Synthetic Gross Revenue (90d)', val: '€482,910', delta: '+18.4% vs prev 90d' },
+          { label: 'Blended Store CVR', val: '3.42%', delta: '+0.38% funnel lift' },
+          { label: 'Cart-to-Checkout Rate', val: '56.8%', delta: 'Synthetic benchmark' },
+          { label: 'Gross Margin (After COGS)', val: '€294,575 (61%)', delta: 'SKU-level blended' }
+        ],
+        headers: ['Event Date', 'Country', 'Product Category', 'SKU', 'Sessions', 'Add to Carts', 'Purchases', 'Gross Rev (EUR)', 'Net Margin (EUR)'],
+        rows: [
+          ['2026-10-29', 'Germany', 'Apparel & Outerwear', 'SKU-APP-01', '812', '154', '58', '€5,510.00', '€3,416.20'],
+          ['2026-10-29', 'United Kingdom', 'Footwear & Performance', 'SKU-FTW-02', '645', '118', '44', '€5,940.00', '€3,445.20'],
+          ['2026-10-29', 'Netherlands', 'Home & Studio Gear', 'SKU-HOM-04', '490', '89', '31', '€5,115.00', '€2,762.10'],
+          ['2026-10-28', 'Sweden', 'Accessories & Packs', 'SKU-ACC-03', '720', '165', '69', '€3,312.00', '€2,351.52']
+        ]
+      },
+      roas: {
+        kpis: [
+          { label: 'Total Paid Media Spend', val: '€68,420', delta: 'Google + Meta + TikTok' },
+          { label: 'Attributed Revenue', val: '€314,730', delta: 'Blended MER: 4.60x' },
+          { label: 'Top ROAS Channel', val: 'Google Brand (6.8x)', delta: 'CPA: €14.20' },
+          { label: 'Paid Social CAC', val: '€24.80', delta: '-11% after creative refresh' }
+        ],
+        headers: ['Channel / Campaign', 'Medium', 'Impressions', 'Clicks', 'Ad Spend (EUR)', 'Conversions', 'Attributed Rev', 'ROAS Multiple'],
+        rows: [
+          ['Google Shopping - PMax', 'CPC', '412,000', '14,200', '€16,330.00', '440', '€41,360.00', '2.53x'],
+          ['Meta Ads - Retargeting', 'Paid Social', '185,000', '6,400', '€9,280.00', '282', '€29,610.00', '3.19x'],
+          ['Google Search - Brand', 'CPC', '98,500', '8,900', '€16,465.00', '427', '€50,386.00', '3.06x'],
+          ['Klaviyo Lifecycle Flows', 'Email', '92,000', '9,100', '€455.00', '564', '€69,936.00', '153.7x']
+        ]
+      },
+      cohort: {
+        kpis: [
+          { label: 'Average Initial AOV', val: '€104.20', delta: 'First order basket' },
+          { label: '90-Day Cumulative LTV', val: '€168.40', delta: '+61.6% repeat expansion' },
+          { label: 'Month-1 Repeat Rate', val: '28.4%', delta: 'Top quartile e-comm' },
+          { label: 'LTV : CAC Ratio (90d)', val: '4.1x', delta: 'Healthy payback window' }
+        ],
+        headers: ['Cohort Month', 'New Customers', 'M0 Retention', 'M1 Repeat %', 'M2 Repeat %', 'M3 Repeat %', 'Initial AOV', '90-Day LTV'],
+        rows: [
+          ['2026-07', '842', '100.0%', '29.4%', '22.1%', '18.6%', '€102.50', '€169.80'],
+          ['2026-08', '915', '100.0%', '31.2%', '24.0%', '19.8%', '€108.00', '€179.40'],
+          ['2026-09', '788', '100.0%', '27.8%', '21.4%', '—', '€99.40', '€154.20'],
+          ['2026-10', '960', '100.0%', '30.1%', '—', '—', '€112.00', '€148.90']
+        ]
+      }
+    };
+
+    function switchDemoTab(tabKey) {
+      ['funnel', 'roas', 'cohort'].forEach(k => {
+        const btn = document.getElementById(`tab-${k}`);
+        btn.className = k === tabKey
+          ? 'text-xs px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold'
+          : 'text-xs px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700';
+      });
+      const d = DEMO_TABS[tabKey];
+      document.getElementById('kpiGrid').innerHTML = d.kpis.map(k => `
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="text-[11px] uppercase font-semibold text-slate-400">${k.label}</div>
+          <div class="text-xl font-extrabold text-white mt-1">${k.val}</div>
+          <div class="text-[11px] text-emerald-400 mt-0.5">${k.delta}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('demoThead').innerHTML = `<tr>${d.headers.map(h => `<th class="p-2.5">${h}</th>`).join('')}</tr>`;
+      document.getElementById('demoTbody').innerHTML = d.rows.map(r => `
+        <tr class="hover:bg-slate-900/40">${r.map((c, idx) => `<td class="p-2.5 ${idx >= r.length - 2 ? 'text-emerald-300 font-semibold' : 'text-slate-300'}">${c}</td>`).join('')}</tr>
+      `).join('');
+    }
+
+    function generateSql() {
+      const pattern = document.getElementById('sqlPattern').value;
+      const proj = document.getElementById('gcpProject').value.trim() || 'analytics_prod.ga4_obfuscated';
+      const days = document.getElementById('lookbackDays').value;
+      let sql = '';
+
+      if (pattern === 'ga4_funnel') {
+        sql = `-- Generated by MetricBloo.io (100% Stateless / Partition-Pruned GA4 E-Commerce Funnel)
+WITH base_events AS (
+  SELECT
+    PARSE_DATE('%Y%m%d', event_date) AS report_date,
+    user_pseudo_id,
+    event_name,
+    (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'session_id') AS session_id,
+    device.category AS device_category,
+    geo.country AS country,
+    ecommerce.purchase_revenue_in_usd AS purchase_revenue
+  FROM \`${proj}.events_*\`
+  WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL ${days} DAY))
+                          AND FORMAT_DATE('%Y%m%d', CURRENT_DATE())
+    AND event_name IN ('session_start', 'view_item', 'add_to_cart', 'begin_checkout', 'purchase')
+)
+SELECT
+  report_date,
+  country,
+  device_category,
+  COUNT(DISTINCT CASE WHEN event_name = 'session_start' THEN session_id END) AS sessions,
+  COUNT(DISTINCT CASE WHEN event_name = 'view_item' THEN session_id END) AS item_views,
+  COUNT(DISTINCT CASE WHEN event_name = 'add_to_cart' THEN session_id END) AS add_to_carts,
+  COUNT(DISTINCT CASE WHEN event_name = 'begin_checkout' THEN session_id END) AS checkouts,
+  COUNT(DISTINCT CASE WHEN event_name = 'purchase' THEN session_id END) AS purchases,
+  ROUND(SUM(COALESCE(purchase_revenue, 0)), 2) AS gross_revenue
+FROM base_events
+GROUP BY 1, 2, 3
+ORDER BY report_date DESC;`;
+      } else if (pattern === 'dbt_staging') {
+        sql = `-- models/staging/stg_ga4__events.sql (Generated Schema-Only dbt Model)
+{{ config(
+    materialized='incremental',
+    unique_key='event_surrogate_key',
+    partition_by={'field': 'event_date_dt', 'data_type': 'date'}
+) }}
+
+WITH source_events AS (
+    SELECT *
+    FROM \`${proj}.events_*\`
+    WHERE _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL ${days} DAY))
+)
+SELECT
+    TO_HEX(MD5(CONCAT(user_pseudo_id, CAST(event_timestamp AS STRING), event_name))) AS event_surrogate_key,
+    PARSE_DATE('%Y%m%d', event_date) AS event_date_dt,
+    user_pseudo_id,
+    event_name,
+    (SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS ga_session_id,
+    COALESCE(ecommerce.purchase_revenue, 0.0) AS revenue_amount
+FROM source_events`;
+      } else {
+        sql = `-- models/marts/fct_customer_ltv_scd2.sql (Cost-Guarded Incremental Mart)
+{{ config(
+    materialized='incremental',
+    incremental_strategy='merge',
+    unique_key='customer_id',
+    partition_by={'field': 'first_order_date', 'data_type': 'date'}
+) }}
+
+SELECT
+    user_pseudo_id AS customer_id,
+    MIN(PARSE_DATE('%Y%m%d', event_date)) AS first_order_date,
+    COUNT(DISTINCT ecommerce.transaction_id) AS total_orders,
+    ROUND(SUM(ecommerce.purchase_revenue), 2) AS lifetime_revenue_eur
+FROM \`${proj}.events_*\`
+WHERE event_name = 'purchase'
+  AND _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL ${days} DAY))
+GROUP BY 1`;
+      }
+      document.getElementById('sqlOutput').innerText = sql;
+    }
+
+    function copySql() {
+      navigator.clipboard.writeText(document.getElementById('sqlOutput').innerText);
+      alert('✅ Copied Partition-Pruned SQL / dbt Model to Clipboard!');
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+      document.getElementById(id).classList.add('flex');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.getElementById(id).classList.remove('flex');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      switchDemoTab('funnel');
+      generateSql();
+    });
+  </script>
+</body>
+</html>
