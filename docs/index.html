@@ -430,6 +430,7 @@
               <option value="funnel">dbt_ga4_ecommerce_funnel_view.sql (Quota Bypass)</option>
               <option value="ai">ga4_ai_llm_attribution_regex.sql (ChatGPT & Claude)</option>
               <option value="blended">dbt_blended_marketing_joined_view.sql (Ads + GSC)</option>
+              <option value="schemayml">dbt_schema_documentation.yml (Auto-Generated YAML & Tests)</option>
             </select>
           </div>
           
@@ -782,7 +783,36 @@ SELECT
   COALESCE(ga4.revenue, 0) AS revenue
 FROM ga4
 FULL OUTER JOIN gsc ON ga4.date = gsc.date AND ga4.clean_url = gsc.clean_url
-ORDER BY date DESC, revenue DESC;`
+ORDER BY date DESC, revenue DESC;`,
+
+      schemayml: `# MetricBloo BI: Production dbt Model Documentation & Automated Tests
+# Standard: dbt Core / Cloud (version: 2)
+version: 2
+
+models:
+  - name: mart_ecommerce_funnel_dropoff
+    description: "Production flattened daily funnel aggregation for Looker Studio, permanently bypassing GA4 API 10-token concurrency limits."
+    columns:
+      - name: event_date
+        description: "Partitioning key (Date of user session activity)"
+        tests:
+          - not_null
+      - name: session_source
+        description: "Traffic acquisition source (e.g. google, cpc, direct, organic)"
+        tests:
+          - not_null
+      - name: sessions_with_ecommerce_intent
+        description: "Total distinct sessions registering product view or cart events."
+        tests:
+          - not_null
+      - name: step_1_view_item_sessions
+        description: "Count of sessions with view_item events."
+      - name: step_2_add_to_cart_sessions
+        description: "Count of sessions with add_to_cart events."
+      - name: step_5_purchase_sessions
+        description: "Total conversion checkout sessions."
+      - name: overall_funnel_conversion_pct
+        description: "Calculated end-to-end conversion rate (Step 5 / Step 1 * 100)."`
     };
 
     function updateSqlDisplay() {
