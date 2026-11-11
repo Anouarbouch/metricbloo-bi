@@ -1,32 +1,26 @@
 # MetricBloo BI: All-in-One Executive Blended Dashboard (Agency & Multi-Client License)
 
-Thank you for purchasing the All-in-One Executive Blended Dashboard Suite.  
-This package includes full commercial white-label rights for unlimited client reporting across Google Ads, GA4, and Google Search Console.
+This package includes full commercial white-label rights for multi-client reporting across GA4 and Google Search Console.
 
 ---
 
-## Step 1: Duplicate the Looker Studio Master Dashboard
-1. Open the multi-page agency master template link:  
-   👉 **`https://lookerstudio.google.com/reporting/create?c.reportId=metricbloo-blended-master-agency`**
-2. In the top-right corner, click **"Make a Copy"**.
-3. Map your data sources:
-   - **Data Source 1:** Google Analytics 4
-   - **Data Source 2:** Google Ads
-   - **Data Source 3:** Google Search Console (URL Impression)
-4. Click **"Copy Report"**. Customize logos, colors, and client branding with zero restrictions.
+## Step 1: Inspect Demo Datasets & Interactive Storefront
+1. Preview the 3 synthetic CSV schemas inside `demo_data/` (`ga4_ecommerce_daily_funnel_demo.csv`, `ga4_channel_roas_attribution_demo.csv`, `ga4_cohort_retention_matrix_demo.csv`) or visit:
+   **`https://anouarbouch.github.io/metricbloo-bi/`**
+2. Upload any CSV directly into Looker Studio ("File Upload" data source) to verify chart schemas before pointing to BigQuery.
 
 ---
 
-## Step 2: Deploy the Full dbt Project (Zero Quota / Zero Supermetrics)
-Included in this package is a complete `dbt` project:
-- `dbt_project.yml`
-- `models/mart_blended_marketing_roi.sql` (joins Google Ads spend + GA4 revenue + GSC ranks on clean URLs)
-- `models/mart_ecommerce_funnel_dropoff.sql` (e-commerce step waterfall)
-- `models/mart_ai_referral_attribution.sql` (ChatGPT, Claude, Perplexity tracking)
+## Step 2: Deploy the Full dbt Project (Zero Quota / Zero Connector SaaS)
+Included in this package is a complete `dbt` project under `dbt/`:
+- `dbt/dbt_project.yml`
+- `dbt/models/marts/mart_blended_marketing_roi.sql` (joins GA4 landing-page sessions/transactions + Search Console impressions/clicks at 1-to-1 normalized page path grain)
+- `dbt/models/marts/mart_ecommerce_funnel_dropoff.sql` (5-step e-commerce conversion waterfall)
+- `dbt/models/marts/mart_ai_referral_attribution.sql` (ChatGPT, Claude, Perplexity, Gemini, Copilot session attribution)
 
-Configure GCP project IDs in `dbt_project.yml` and execute:
+Configure your `ga4_project`, `ga4_property_id`, and `gsc_project` variables in `dbt/dbt_project.yml` and execute:
 ```bash
-dbt run
+cd dbt && dbt run
 ```
 
 ---
@@ -37,4 +31,4 @@ dbt run
 - `dbt/`: Production dbt project structure.
 - `demo_data/`: 3 synthetic CSV files for offline testing.
 
-For priority schema support: support@metricbloo.bi
+For schema support: `bouchaara.anouar@gmail.com`

@@ -1,7 +1,7 @@
 # SKU 03: All-in-One Executive Blended Dashboard (GA4 + Ads + GSC)
 
-**Price:** $289 (Agency / Commercial License)  
-**Deliverable:** 1-Click Looker Studio Multi-Page Master Template + dbt Blending Pipeline + White-Label Rights
+**Price:** €289 (Agency / Commercial License)  
+**Deliverable:** Full Multi-Model dbt Project + Normalized GA4/GSC Blending SQL + Synthetic Demo CSVs
 
 ---
 
@@ -16,5 +16,5 @@ This dashboard blends **Google Ads, GA4, and Google Search Console** natively in
 ---
 
 ## 2. Instant Checkout
-👉 **[Purchase Commercial License ($289 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/2f0a8905-ea18-408a-bb17-674e31090e8f)**  
+👉 **[Purchase Commercial License (€289 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/2f0a8905-ea18-408a-bb17-674e31090e8f)**  
 *(Instant template duplication link, commercial white-label rights, EU VAT receipt)*

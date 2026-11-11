@@ -1,7 +1,7 @@
 # SKU 02: GA4 E-Commerce Drop-Off & Checkout Funnel Master
 
-**Price:** $129 (One-Time Commercial License)  
-**Deliverable:** 1-Click Looker Studio Template Link + BigQuery/dbt Production Model + Video Setup Walkthrough
+**Price:** €129 (One-Time Commercial License)  
+**Deliverable:** BigQuery/dbt Production SQL View + Schema Documentation + Synthetic Demo CSV
 
 ---
 
@@ -27,5 +27,5 @@ E-commerce brands and agencies lose thousands of dollars in hidden drop-offs bet
 ---
 
 ## 3. Instant Checkout
-👉 **[Purchase Commercial License ($129 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/a95495ac-e42b-44cf-8da3-bfb6f9df9412)**  
+👉 **[Purchase Commercial License (€129 via Lemon Squeezy)](https://metricbloo.lemonsqueezy.com/checkout/buy/a95495ac-e42b-44cf-8da3-bfb6f9df9412)**  
 *(Instant delivery, EU VAT invoice included, 14-day money-back guarantee)*

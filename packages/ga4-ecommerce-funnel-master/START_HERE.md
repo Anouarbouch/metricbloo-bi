@@ -5,32 +5,25 @@ Follow this 3-step guide to deploy your dashboard in under 60 seconds.
 
 ---
 
-## Step 1: Duplicate the Looker Studio Dashboard (1-Click)
-1. Open your master template link:  
-   👉 **`https://lookerstudio.google.com/reporting/create?c.reportId=metricbloo-ga4-funnel-master`**
-2. In the top-right corner, click **"Make a Copy"**.
-3. Under **"New Data Source"**:
-   - To preview with our demo numbers: leave default synthetic data selected.
-   - To connect your live property: select your **Google Analytics 4 Property** or your **BigQuery Project**.
-4. Click **"Copy Report"**. Your dashboard is now live in your private workspace.
+## Step 1: Review Documentation & Synthetic Demo Data
+1. Inspect `ga4_ecommerce_daily_funnel_demo.csv` included in this ZIP to verify the pre-aggregated daily schema columns (`event_date`, `device_category`, `country`, `session_source`, `step_1_view_item_sessions` .. `step_5_purchase_sessions`).
+2. Or preview the interactive dashboard and copy SQL snippets at:
+   **`https://anouarbouch.github.io/metricbloo-bi/`**
 
 ---
 
-## Step 2: (Optional) Deploy the BigQuery / dbt Model for High Traffic
-If your website receives high traffic or hits GA4 API quota limit errors (`10 concurrent requests limit`), use our pre-computed view:
+## Step 2: Deploy the BigQuery / dbt Model (Zero Quota Limits)
+If your website hits GA4 API quota errors (`10 concurrent requests limit`), deploy the pre-computed view in `dbt_ga4_funnel_view.sql`:
 1. Open `dbt_ga4_funnel_view.sql` in this package.
-2. In lines 17-18, replace:
-   - `{{ var('ga4_project') }}` with your GCP Project ID.
-   - `{{ var('ga4_property_id') }}` with your GA4 Property ID.
-3. Run the query in BigQuery Console or include it in your dbt repository under `models/marts/`.
-4. Connect Looker Studio directly to this view for **instant loading** and **zero quota crashes**.
+2. Replace `{{ var('ga4_project') }}` and `{{ var('ga4_property_id') }}` with your GCP Project ID and GA4 Property ID (or configure them in `dbt_project.yml`).
+3. Run the query in BigQuery Console (or under `models/marts/` in dbt) and connect Looker Studio directly to the resulting BigQuery table/view.
 
 ---
 
 ## Step 3: Files Included in this ZIP
 - `START_HERE.md`: This setup documentation.
-- `dbt_ga4_funnel_view.sql`: Production BigQuery SQL model unnesting `view_item`, `add_to_cart`, `begin_checkout`, `purchase`.
-- `ga4_ecommerce_synthetic_demo.csv`: 100% synthetic CSV dataset for testing.
+- `dbt_ga4_funnel_view.sql`: Production BigQuery SQL model unnesting `view_item`, `add_to_cart`, `begin_checkout`, `add_shipping_info`, `add_payment_info`, and `purchase`.
+- `ga4_ecommerce_daily_funnel_demo.csv`: 100% synthetic CSV dataset for testing.
 - `COMMERCIAL_LICENSE.txt`: Commercial single-brand license terms.
 
-For async schema support or questions: support@metricbloo.bi
+For async schema support or questions: `bouchaara.anouar@gmail.com`

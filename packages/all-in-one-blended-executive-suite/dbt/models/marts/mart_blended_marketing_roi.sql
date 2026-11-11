@@ -1,10 +1,13 @@
 -- ==============================================================================
--- MetricBloo BI: Blended Marketing ROI & Unified Landing Page View
--- Connectors: GA4 + Google Ads + Google Search Console (Normalized Join)
+-- MetricBloo BI: Blended Website Performance Model (GA4 + Search Console)
 -- Dialect: Google BigQuery / dbt
 -- ==============================================================================
--- Solves: Supermetrics charges $172–$431/mo to blend Ads, Search Console, and GA4.
--- This model joins Google Ads spend with GA4 revenue and GSC rankings on clean, normalized page URLs.
+-- Aggregates GA4 landing-page sessions/transactions strictly at
+-- (report_date, clean_page_path) grain before FULL OUTER JOIN with Search Console
+-- URL impressions so organic clicks are never multiplied by channel/source splits.
+-- Note: Account/campaign Google Ads spend lives at (report_date, campaign_name)
+-- grain and should be modeled in a separate daily channel-spend mart or joined
+-- using Final URL tracking parameters to prevent spend duplication across pages.
 
 WITH normalized_ga4 AS (
   SELECT
@@ -12,14 +15,15 @@ WITH normalized_ga4 AS (
     REGEXP_REPLACE(
       REGEXP_REPLACE(
         LOWER((SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location')),
-        r'\?.*$', ''  -- Strip query params
+        r'\?.*$', ''
       ),
-      r'https?://[^/]+', '' -- Retain path only
+      r'^https?://[^/]+', ''
     ) AS clean_page_path,
-    traffic_source.medium AS medium,
-    traffic_source.source AS source,
-    COUNT(DISTINCT CONCAT(user_pseudo_id, CAST((SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS STRING))) AS sessions,
-    COUNT(DISTINCT CASE WHEN event_name = 'purchase' THEN user_pseudo_id END) AS transactions,
+    COUNT(DISTINCT CONCAT(user_pseudo_id, '_', CAST((SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS STRING))) AS sessions,
+    COUNT(DISTINCT CASE
+      WHEN event_name = 'purchase'
+      THEN COALESCE(NULLIF(ecommerce.transaction_id, ''), CONCAT(user_pseudo_id, '_', CAST(event_timestamp AS STRING)))
+    END) AS transactions,
     SUM(COALESCE(ecommerce.purchase_revenue_in_usd, 0)) AS ga4_attributed_revenue
   FROM
     `{{ var('ga4_project') }}.analytics_{{ var('ga4_property_id') }}.events_*`
@@ -27,7 +31,7 @@ WITH normalized_ga4 AS (
     _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY))
     AND FORMAT_DATE('%Y%m%d', CURRENT_DATE())
   GROUP BY
-    1, 2, 3, 4
+    1, 2
 ),
 
 normalized_gsc AS (
@@ -35,30 +39,15 @@ normalized_gsc AS (
     data_date AS report_date,
     REGEXP_REPLACE(
       REGEXP_REPLACE(LOWER(url), r'\?.*$', ''),
-      r'https?://[^/]+', ''
+      r'^https?://[^/]+', ''
     ) AS clean_page_path,
     SUM(impressions) AS organic_impressions,
     SUM(clicks) AS organic_clicks,
-    ROUND(SAFE_DIVIDE(SUM(sum_top_position), SUM(impressions)), 2) AS average_organic_position
+    ROUND(SAFE_DIVIDE(SUM(sum_top_position), NULLIF(SUM(impressions), 0)), 2) AS average_organic_position
   FROM
     `{{ var('gsc_project') }}.searchconsole.searchdata_url_impression`
   WHERE
     data_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-  GROUP BY
-    1, 2
-),
-
-normalized_ads AS (
-  SELECT
-    segments_date AS report_date,
-    campaign_name,
-    SUM(metrics_cost_micros) / 1000000.0 AS ad_spend,
-    SUM(metrics_clicks) AS ad_clicks,
-    SUM(metrics_conversions_value) AS ad_conversions_value
-  FROM
-    `{{ var('ads_project') }}.google_ads.p_ads_CampaignBasicStats_{{ var('ads_customer_id') }}`
-  WHERE
-    segments_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
   GROUP BY
     1, 2
 )
@@ -78,7 +67,7 @@ FROM
 FULL OUTER JOIN
   normalized_gsc gsc
 ON
-  ga4.report_date = gsc.report_date 
+  ga4.report_date = gsc.report_date
   AND ga4.clean_page_path = gsc.clean_page_path
 ORDER BY
   date DESC, revenue DESC;

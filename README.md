@@ -1,7 +1,7 @@
 # MetricBloo BI: Production Looker Studio & GA4 BigQuery / dbt Templates
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![GitHub Pages](https://img.shields.io/badge/Live_Storefront-GitHub_Pages-blue.svg)](https://anouarbouchaara.github.io/metricbloo-bi/)
+[![GitHub Pages](https://img.shields.io/badge/Live_Storefront-GitHub_Pages-blue.svg)](https://anouarbouch.github.io/metricbloo-bi/)
 [![BigQuery](https://img.shields.io/badge/Google-BigQuery-4285F4.svg?logo=google-cloud)](https://cloud.google.com/bigquery)
 [![Looker Studio](https://img.shields.io/badge/Looker_Studio-Community_Gallery-orange.svg)](https://lookerstudio.google.com/)
 [![dbt Ready](https://img.shields.io/badge/dbt-Ready_Models-FF694B.svg?logo=dbt)](https://www.getdbt.com/)
@@ -29,23 +29,23 @@
 * **Resources:**
   * 📄 [SKU Documentation & Looker Studio Calculated Fields](skus/sku-01-free-ai-referral-attribution/README.md)
   * 💻 [Production BigQuery SQL Model](skus/sku-01-free-ai-referral-attribution/ga4_ai_channel_regex.sql)
-  * 🔗 [Duplicate Free Looker Studio Dashboard (1-Click)](https://lookerstudio.google.com/reporting/create?c.reportId=metricbloo-ai-referrals-free)
+  * 🔗 [Live SQL Playground & Interactive Storefront](https://anouarbouch.github.io/metricbloo-bi/#sql-engine)
 
-### 💎 SKU 02: GA4 E-Commerce Drop-Off & Checkout Funnel Master ($129)
+### 💎 SKU 02: GA4 E-Commerce Drop-Off & Checkout Funnel Master (€129)
 * **Status:** Commercial License
 * **What it does:** Flattens the complete 5-step e-commerce journey (`view_item` → `add_to_cart` → `begin_checkout` → `add_payment_info` → `purchase`) with drop-off percentages by device, traffic source, and country.
 * **Resources:**
   * 📄 [SKU Documentation](skus/sku-02-ga4-ecommerce-dropoff-funnel/README.md)
   * 💻 [dbt GA4 Flattened Funnel View](skus/sku-02-ga4-ecommerce-dropoff-funnel/dbt_ga4_funnel_view.sql)
-  * 🛒 [Instant Purchase via Lemon Squeezy ($129)](https://metricbloo.lemonsqueezy.com/checkout/buy/a95495ac-e42b-44cf-8da3-bfb6f9df9412)
+  * 🛒 [Instant Purchase via Lemon Squeezy (€129)](https://metricbloo.lemonsqueezy.com/checkout/buy/a95495ac-e42b-44cf-8da3-bfb6f9df9412)
 
-### 🚀 SKU 03: All-in-One Executive Blended Dashboard ($289)
+### 🚀 SKU 03: All-in-One Executive Blended Dashboard (€289)
 * **Status:** Commercial & Agency License
-* **What it does:** Unifies Google Ads spend, GA4 transactions, and Google Search Console organic ranks onto clean, normalized landing page URLs with zero Supermetrics subscriptions.
+* **What it does:** Joins GA4 sessions, purchases, and revenue with Google Search Console URL impressions and clicks on normalized landing page paths at 1-to-1 daily grain.
 * **Resources:**
   * 📄 [SKU Documentation](skus/sku-03-blended-website-master/README.md)
   * 💻 [dbt Multi-Source Blending Model](skus/sku-03-blended-website-master/dbt_blended_marketing_model.sql)
-  * 🛒 [Instant Purchase via Lemon Squeezy ($289)](https://metricbloo.lemonsqueezy.com/checkout/buy/2f0a8905-ea18-408a-bb17-674e31090e8f)
+  * 🛒 [Instant Purchase via Lemon Squeezy (€289)](https://metricbloo.lemonsqueezy.com/checkout/buy/2f0a8905-ea18-408a-bb17-674e31090e8f)
 
 ---
 
@@ -53,7 +53,7 @@
 
 1. **Clone or Download This Repository:**
    ```bash
-   git clone https://github.com/anouarbouchaara/metricbloo-bi.git
+   git clone https://github.com/Anouarbouch/metricbloo-bi.git
    cd metricbloo-bi
    ```
 2. **Preview with Synthetic Demo Data:**
@@ -67,18 +67,16 @@
 
 ```
 metricbloo-bi/
-├── .github/workflows/deploy-pages.yml   # Automated GitHub Pages deploy workflow
 ├── docs/                                # Zero-dependency GitHub Pages storefront
 │   ├── index.html                       # Interactive dashboard preview & SQL builder
 │   └── demo_data/                       # 100% synthetic e-commerce & ROAS datasets
 ├── skus/
 │   ├── sku-01-free-ai-referral-attribution/ # Free lead magnet & SQL model
-│   ├── sku-02-ga4-ecommerce-dropoff-funnel/ # $129 E-Commerce funnel master
-│   └── sku-03-blended-website-master/       # $289 Blended multi-channel dashboard
+│   ├── sku-02-ga4-ecommerce-dropoff-funnel/ # €129 E-Commerce funnel master
+│   └── sku-03-blended-website-master/       # €289 Blended multi-channel dashboard
 ├── dbt/                                 # Production-ready dbt analytics models
 │   ├── dbt_project.yml
 │   └── models/
-│       ├── staging/
 │       └── marts/
 ├── LICENSE                              # MIT License
 └── README.md                            # Documentation & Quick Start

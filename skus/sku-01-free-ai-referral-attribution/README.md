@@ -41,6 +41,6 @@ To bypass GA4 API quota limits (`10 concurrent requests limit`), use our optimiz
 
 ---
 
-## 4. One-Click Template Link
-Duplicate the pre-built Looker Studio template directly into your Google account:
-🔗 **[Open Free 1-Click Looker Studio AI Referral Dashboard](https://lookerstudio.google.com/reporting/create?c.reportId=metricbloo-ai-referrals-free)** *(Uses Google Community Gallery)*
+## 4. Live Interactive SQL & Demo Preview
+Open the interactive storefront and copy the production SQL directly:
+🔗 **[MetricBloo BI Interactive SQL Engine](https://anouarbouch.github.io/metricbloo-bi/#sql-engine)**
